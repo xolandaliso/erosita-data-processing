@@ -1,0 +1,8 @@
+#gitignore
+
+*.fits
+.ipynb_checkpoints/
+*.pdf
+*.zip
+demoscript_4EDR.py
+
