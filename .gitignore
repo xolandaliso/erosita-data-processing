@@ -1,6 +1,8 @@
 #gitignore
 
 *.fits
+data/
+*.pyc
 .ipynb_checkpoints/
 *.pdf
 *.zip

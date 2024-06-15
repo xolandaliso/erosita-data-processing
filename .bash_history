@@ -19,3 +19,4 @@ cd idies/
 ls -l 
 plist 
 exit
+exit
