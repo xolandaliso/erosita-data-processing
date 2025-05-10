@@ -7,4 +7,10 @@ data/
 *.pdf
 *.zip
 demoscript_4EDR.py
-
+venv/
+*.log
+analysis/figures/*
+analysis/data/*
+sextractor/
+.bash_history
+.DS_Store
