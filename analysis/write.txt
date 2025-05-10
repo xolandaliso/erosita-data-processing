@@ -1,0 +1,94 @@
+ 
+ docker run -it --rm -v ./analysis/:/home/idies/xray_analysis/ erosita/esass:latest /bin/bash
+ 
+ idies@6c3d20da2104:~/xray_analysis/data/full_eband$ evtool eventfiles="tm0_eventfile_cleaned.fits" outfile="tm8_eventfile_cleaned.fits" telid="1 2 6" flag=0xc00fff30 pattern=15 gti="FLAREGTI" emin=0.2 emax=2.3 image=yes size=1250 center_position=auto
+ evtool: eSASS4EDR Sep 02 09:43:31 2021
+ evtool/evtool_main: memset==.false., so memory setting for large files is used.
+ evtool/merge_extensions: Merging 1 files.
+ evtool/merge_extensions: Infiles will be read 1 extension at a time.
+ evtool/evtool_main: Applying filters.
+ evtool/apply_filter_eventfile: Creating image.
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 1 events found with RA==0 and DEC==0. These should be flagged or set to NULL!
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 20 out of 139734 possible events fall outside the image bounds.
+ evtool/evtool_main: Writing outfile.
+ evtool/write_tEventFile: Writing events.
+ evtool/write_tEventFile: Writing events-extension extras.
+ evtool: DONE
+
+
+idies@6c3d20da2104:~/xray_analysis/data/full_eband$ evtool eventfiles="tm0_eventfile_cleaned.fits" outfile="tm9_eventfile_cleaned.fits" telid="5 7" flag=0xc00fff30 patter
+n=15 gti="FLAREGTI" emin=0.8 emax=2.3 image=yes size=1250 center_position=auto
+ evtool: eSASS4EDR Sep 02 09:43:31 2021
+ evtool/evtool_main: memset==.false., so memory setting for large files is used.
+ evtool/merge_extensions: Merging 1 files.
+ evtool/merge_extensions: Infiles will be read 1 extension at a time.
+ evtool/evtool_main: Applying filters.
+ evtool/apply_filter_eventfile: Creating image.
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 4 events found with RA==0 and DEC==0. These should be flagged or set to NULL!
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 14 out of 112252 possible events fall outside the image bounds.
+ evtool/evtool_main: Writing outfile.
+ evtool/write_tEventFile: Writing events.
+ evtool/write_tEventFile: Writing events-extension extras.
+ evtool: DONE
+
+ # the first two are wrong, here is the correct command to create a TM0 image in soft band:
+
+ idies@6c3d20da2104:~/xray_analysis/data/full_eband$ evtool eventfiles="tm0_eventfile_cleaned.fits" outfile="tm0_sband_eventfile_cleaned.fits" telid="1 2 5 6 7" flag=0xc00fff30 pattern=15 gti="FLAREGTI" emin="0.2 0.2 0.8 0.2 0.8" emax="2.3 2.3 2.3 2.3 2.3"
+ image=yes size=1250 center_position=auto
+ evtool: eSASS4EDR Sep 02 09:43:31 2021
+ evtool/evtool_main: memset==.false., so memory setting for large files is used.
+ evtool/merge_extensions: Merging 1 files.
+ evtool/merge_extensions: Infiles will be read 1 extension at a time.
+ evtool/evtool_main: Applying filters.
+ evtool/apply_filter_eventfile: Creating image.
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 11 events found with RA==0 and DEC==0. These should be flagged or set to NULL!
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 42 out of 376348 possible events fall outside the image bounds.
+ evtool/evtool_main: Writing outfile.
+ evtool/write_tEventFile: Writing events.
+ evtool/write_tEventFile: Writing events-extension extras.
+ evtool: DONE
+idies@6c3d20da2104:~/xray_analysis/data/full_eband$ 
+
+proud I figured this out, I was stuck for almost 12 hours excluding the sleep. 
+
+#creating TM8 photon image
+
+evtool eventfiles='tm0_eventfile_cleaned.fits' outfile='tm8_cleaned_photon_image.fits' telid='1 2 6' gti="FLAREGTI" flag=0xc00fff30 pattern=15 emin=0.2 emax=2.3 image=yes size=1250 center_position=auto
+
+#creating TM9 photon image
+
+evtool eventfiles='tm0_eventfile_cleaned.fits' outfile='tm9_cleaned_photon_image.fits' telid='5 7' gti="FLAREGTI" flag=0xc00fff30 pattern=15 emin=0.8 emax=2.3 image=yes size=1250 center_position=auto
+
+# evtool produces incorrect header extensions that are not consistent with the TELIDs. a python script to fix this is written (header_correction.py)
+
+after the correction of the header create vign/non-vign exposure maps for TM8 and TM9 using:
+
+expmap inputdatasets="tm8_cleaned_photon_image_corrected.fits" templateimage="tm8_cleaned_photon_image_corrected.fits" mergedmaps="exposure_tm8_novignetted.fits" gtitype=FLAREGTI emin=0.2 emax=2.3 withdetmaps=yes withvignetting=no
+
+similarly for TM9 but in the energy range 0.8 - 2.3 keV. 
+
+
+skytile analysis
+
+evtool eventfiles='em01_10
+em01_102138_020_EventList_c010_cleaned.fits  em01_104141_020_EventList_c010_cleaned.fits  em01_106138_020_EventList_c010_cleaned.fits  em01_108141_020_EventList_c010_cleaned.fits
+idies@6c3d20da2104:~/xray_analysis/data/skytiles/cleaned$ evtool eventfiles='em01_102138_020_EventList_c010_cleaned.fits  em01_104141_020_EventList_c010_cleaned.fits em01_106138_020_EventList_c010_cleaned.fits em01_108141_020_EventList_c010_cleaned.fits em01_111138_020_EventList_c010_cleaned.fits' outfile='tm0_skytiles_full_eband.fits' image=yes size=1250 center_position=auto emin=0.2 emax=10.0
+
+trying something
+
+skytile analysis
+
+evtool eventfiles='em01_10
+em01_102138_020_EventList_c010_cleaned.fits  em01_104141_020_EventList_c010_cleaned.fits  em01_106138_020_EventList_c010_cleaned.fits  em01_108141_020_EventList_c010_cleaned.fits
+idies@6c3d20da2104:~/xray_analysis/data/skytiles/cleaned$ 
+
+evtool eventfiles='em01_102138_020_EventList_c010_full_band_full_band_cleaned_updated.fits\
+ em01_110135_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ em01_106135_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ em01_106138_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ em01_108141_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ em01_104141_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ em01_113141_020_EventList_c010_full_band_full_band_cleaned_updated.fits\
+ em01_111138_020_EventList_c010_full_band_full_band_cleaned_updated.fits \
+ tm0_eventfile_cleaned.fits' outfile='combined_full_band_skytiles_different_order_with_obs.fits' 
+flag=0xc00fff30 emin=0.2 emax=10 image=yes 

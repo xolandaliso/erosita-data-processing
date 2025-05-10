@@ -1,0 +1,2 @@
+#RAD(Kpc) RAD(arcs)  VROT(km/s) DISP(km/s) INC(deg)  P.A.(deg) Z0(pc)    Z0(arcs)  SIG(E20)  XPOS(pix) YPOS(pix) VSYS(km/s) VRAD(km/s) E_VROT1   E_VROT2   E_DISP1   E_DISP2   E_INC1    E_INC2    E_PA1     E_PA2     E_VSYS1   E_VSYS2   
+0.003     4.146      0.067      8.344      84.373    108.176   0.000     0.000     1.000     94.140    96.325    -22.089    0.000      -0.009    0.013     -4.688    3.909     -1.896    1.449     -23.739   23.739    -6.370    5.379     
