@@ -1,11 +1,11 @@
 from astropy.io import fits
 
 # Input and output files
-input_file = "tm9_cleaned_photon_image.fits"
-output_file = "tm9_cleaned_photon_image_corrected.fits"
+input_file = "mosaic.fits"
+output_file = "mosaic_header_corrected.fits"
 
 # Expected TMs for TM8
-expected_tms = [5, 7]
+expected_tms = [1, 2, 5, 6, 7]
 
 # Prefixes of TM-specific extensions
 tm_prefixes = ['CORRATT', 'DEADCOR', 'BADPIX', 'GTI', 'FLAREGTI', 'HK1', 'HK2', 'HK3', 'HK5']
