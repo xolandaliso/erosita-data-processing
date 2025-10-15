@@ -1,0 +1,6 @@
+Cosmic X-ray Background Measurement
+==================================================
+
+CXB Surface Brightness: 7.514224e-12 ± 4.218222e-13 counts/s/arcsec^2
+Extraction Region: RA=107.697007, Dec=-49.662333
+Extraction Radius: 80 pixels
