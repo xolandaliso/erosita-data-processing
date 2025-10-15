@@ -1,5 +1,7 @@
 #gitignore
 
+/data/
+revisit/data/
 *.fits
 data/
 *.pyc
